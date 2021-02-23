@@ -1,0 +1,94 @@
+{
+    "personas" : [
+        {
+            "id": 1,
+            "nombre": "Juan Camilo Cardona",
+            "cedula": "100",
+            "edad": 22,
+            "genero": "m",
+            "estatura": 1.86,
+            "estCivil": "s"
+        },
+        {
+            "id": 2,
+            "nombre": "Cristian Daniel Morales",
+            "cedula": "101",
+            "edad": 23,
+            "genero": "m",
+            "estatura": 1.65,
+            "estCivil": "c"
+        },
+        {
+            "id": 3,
+            "nombre": "Santiago Echeverry",
+            "cedula": "102",
+            "edad": 23,
+            "genero": "m",
+            "estatura": 1.70,
+            "estCivil": "d"
+        },
+        {
+            "id": 4,
+            "nombre": "Laura Camila Mejía",
+            "cedula": "103",
+            "edad": 20,
+            "genero": "f",
+            "estatura": 1.68,
+            "estCivil": "s"
+        },
+        {
+            "id": 5,
+            "nombre": "Ana María Carmona",
+            "cedula": "104",
+            "edad": 25,
+            "genero": "m",
+            "estatura": 1.70,
+            "estCivil": "s"
+        },
+        {
+            "id": 6,
+            "nombre": "Luis Armando Vallejo",
+            "cedula": "105",
+            "edad": 30,
+            "genero": "o",
+            "estatura": 1.90,
+            "estCivil": "o"
+        },
+        {
+            "id": 7,
+            "nombre": "Andrés Felipe Pulgarín",
+            "cedula": "106",
+            "edad": 23,
+            "genero": "m",
+            "estatura": 1.72,
+            "estCivil": "c"
+        },
+        {
+            "id": 8,
+            "nombre": "Alejandro Valencia",
+            "cedula": "107",
+            "edad": 24,
+            "genero": "m",
+            "estatura": 1.80,
+            "estCivil": "d"
+        },
+        {
+            "id": 9,
+            "nombre": "Duvan Ferney Ruiz",
+            "cedula": "108",
+            "edad": 24,
+            "genero": "m",
+            "estatura": 1.81,
+            "estCivil": "s"
+        },
+        {
+            "id": 10,
+            "nombre": "Jose Manuel Bernal",
+            "cedula": "109",
+            "edad": 23,
+            "genero": "m",
+            "estatura": 1.74,
+            "estCivil": "s"
+        }
+    ]
+}
