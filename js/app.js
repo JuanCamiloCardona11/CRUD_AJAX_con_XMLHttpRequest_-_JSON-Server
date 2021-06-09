@@ -1,10 +1,75 @@
 const d = document,
     $table = d.querySelector(".crud-table"),
-    $form = d.querySelector(".crud-form"),
-    $title = d.querySelector(".crud-title"),
+    $form = d.querySelector("#crud-form"),
+    $title = d.querySelector(".crud__subtitle"),
     $template = d.getElementById("crud-template").content,
     $fragment = d.createDocumentFragment(),
     xhr = new XMLHttpRequest();
+
+d.addEventListener("submit",(e) =>{
+   if(e.target === $form){
+      e.preventDefault();     //Bloqueamos la acción por defecto del botón submit ya que lo haremos con AJAX
+        
+      if(!e.target.id.value){ //si el botón hidden no tiene valor en el id entra aquí
+         //CREATE (POST)
+         ajax({
+            url: "http://localhost:3000/personas",
+               method:"POST",
+               success: (res) => location.reload(),
+               error: (err) => $form.insertAdjacentHTML("afterend",`<p><b>${err}</b></p>`),
+               data: {
+                  nombre: e.target.nombre.value, //Así obtenemos los valores
+                  cedula:e.target.cedula.value,  //de los campos de entrada
+                  edad:e.target.edad.value,      //de un formulario.
+                  genero:e.target.genero.value,
+                  estatura:e.target.estatura.value,
+                  estCivil:e.target.estCivil.value
+               }                  
+         });
+      } else { 
+      //UPDATE (PUT) 
+         ajax({
+            url: `http://localhost:3000/personas/${e.target.id.value}`,
+               method:"PUT",
+               success: (res) => location.reload(),
+               error: (err) => $form.insertAdjacentHTML("afterend",`<p><b>${err}</b></p>`),
+               data: {
+                  nombre: e.target.nombre.value, //Así obtenemos los valores
+                  cedula:e.target.cedula.value,  //de los campos de entrada
+                  edad:e.target.edad.value,      //de un formulario.
+                  genero:e.target.genero.value,
+                  estatura:e.target.estatura.value,
+                  estCivil:e.target.estCivil.value
+               }
+         });
+      }
+   }
+});
+
+d.addEventListener("click", e => {
+   if(e.target.matches(".editar")){
+      $title.textContent = "Editar Persona";
+      $form.id.value = e.target.dataset.id;
+      $form.nombre.value = e.target.dataset.nombre;
+      $form.cedula.value = e.target.dataset.cedula;
+      $form.edad.value = e.target.dataset.edad;
+      $form.genero.value = e.target.dataset.genero;
+      $form.estatura.value = e.target.dataset.estatura;
+      $form.estCivil.value = e.target.dataset.estCivil;
+   }
+   if(e.target.matches(".eliminar")){
+      let confirEliminacion = confirm(`Estás seguro de eliminar la persona con id ${e.target.dataset.id}?`);
+      if(confirEliminacion){
+         //DELETE
+         ajax({
+            url: `http://localhost:3000/personas/${e.target.dataset.id}`,
+            method:"DELETE",
+            success: (res) => location.reload(),
+            error: (err) => $form.insertAdjacentHTML("afterend",`<p><b>${err}</b></p>`)
+         });
+      }
+   }
+});
 
 //FUNCION AJAX -> Servirá para las cuatro acciones (CREATE, READ , UPDATE & DELETE)
 const ajax = options => {
@@ -33,18 +98,16 @@ const ajax = options => {
 const obtenerPersonas = () => {
     ajax({
         method: "GET",
-        url:"http://localhost:5555/personas",
+        url:"http://localhost:3000/personas",
         success: (res) => {
             res.forEach(elem => {
                 $template.querySelector(".nombre").textContent = elem.nombre;
                 $template.querySelector(".cedula").textContent = elem.cedula;
                 $template.querySelector(".edad").textContent = elem.edad;
                 $template.querySelector(".genero").textContent = elem.genero;
-                $template.querySelector(".estatura").textContent = elem.estatura;
+                $template.querySelector(".estatura").textContent = elem.estatura/100;
                 $template.querySelector(".estCivil").textContent = elem.estCivil;
-
                 
-
                 //PARA LOS BOTONES de editar y eliminar
 
                 //Para el botón de editar -> Creamos un data-atributte en el botón por cada atributo  
@@ -63,7 +126,7 @@ const obtenerPersonas = () => {
                 $botonEliminar.dataset.id = elem.id;
             
                 let $clone = d.importNode($template, true);
-                $fragment.appendChild($clone);
+                $fragment.append($clone);
             
             });
             $table.querySelector("tbody").appendChild($fragment);
@@ -78,68 +141,3 @@ const obtenerPersonas = () => {
 //GET inicial -> Listener del evento DOMContentLoaded para cargar en pantalla 
 //las personas cuando se recarga la página
 d.addEventListener("DOMContentLoaded", obtenerPersonas);
-
-d.addEventListener("submit",(e) =>{
-    if(e.target === $form){
-        e.preventDefault();     //Bloqueamos la acción por defecto del botón submit ya que lo haremos con AJAX
-        
-        if(!e.target.id.value){ //si el botón hidden no tiene valor en el id entra aquí
-            //CREATE (POST)
-            ajax({
-                url: "http://localhost:5555/personas",
-                method:"POST",
-                success: (res) => location.reload(),
-                error: (err) => $form.insertAdjacentHTML("afterend",`<p><b>${err}</b></p>`),
-                data: {
-                    nombre: e.target.nombre.value, //Así obtenemos los valores
-                    cedula:e.target.cedula.value,  //de los campos de entrada
-                    edad:e.target.edad.value,      //de un formulario.
-                    genero:e.target.genero.value,
-                    estatura:e.target.estatura.value,
-                    estCivil:e.target.estCivil.value
-                }
-            });
-        } else { 
-            //UPDATE (PUT) 
-            ajax({
-                url: `http://localhost:5555/personas/${e.target.id.value}`,
-                method:"PUT",
-                success: (res) => location.reload(),
-                error: (err) => $form.insertAdjacentHTML("afterend",`<p><b>${err}</b></p>`),
-                data: {
-                    nombre: e.target.nombre.value, //Así obtenemos los valores
-                    cedula:e.target.cedula.value,  //de los campos de entrada
-                    edad:e.target.edad.value,      //de un formulario.
-                    genero:e.target.genero.value,
-                    estatura:e.target.estatura.value,
-                    estCivil:e.target.estCivil.value
-                }
-            });
-        }
-    }
-});
-
-d.addEventListener("click", e => {
-    if(e.target.matches(".editar")){
-        $form.id.value = e.target.dataset.id;
-        $title.textContent = "Editar Persona";
-        $form.nombre.value = e.target.dataset.nombre;
-        $form.cedula.value = e.target.dataset.cedula;
-        $form.edad.value = e.target.dataset.edad;
-        $form.genero.value = e.target.dataset.genero;
-        $form.estatura.value = e.target.dataset.estatura;
-        $form.estCivil.value = e.target.dataset.estCivil;
-    }
-    if(e.target.matches(".eliminar")){
-        let confirEliminacion = confirm(`Estás seguro de eliminar la persona con id ${e.target.dataset.id}?`);
-        if(confirEliminacion){
-            //DELETE
-            ajax({
-                url: `http://localhost:5555/personas/${e.target.dataset.id}`,
-                method:"DELETE",
-                success: (res) => location.reload(),
-                error: (err) => $form.insertAdjacentHTML("afterend",`<p><b>${err}</b></p>`)
-            });
-        }
-    }
-});

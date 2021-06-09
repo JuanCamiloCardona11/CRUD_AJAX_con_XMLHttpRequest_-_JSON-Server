@@ -2,80 +2,91 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Juan Camilo Cardona Calderón">
-    <meta name="keywords" content="AJAX, XMLHttpRequest, Fetch, Axios, petición">
-    <title>CRUD AJAX</title>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="author" content="Juan Camilo Cardona Calderón">
+   <meta name="keywords" content="AJAX, XMLHttpRequest, Fetch, Axios, petición">
+   <link rel="preconnect" href="https://fonts.gstatic.com">
+   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="css/estilos.css">
+   <title>CRUD AJAX | XMLHTTPRequest</title>
 </head>
-<!--PARA ESTE EJERCICIO DEBEMOS DE LEVANTAR Y MANTENER ABIERTO EL JSON-SERVER-->
+<!--PARA ESTE EJERCICIO DEBEMOS DE LEVANTAR Y MANTENER ABIERTO EL JSON-SERVER (SERÁ NUESTRO BACKEND)-->
+<!--
+   json-server --watch <Nombre del archivo en formato json>
+   
+   para cambiar  el puerto corremos el comando json-server --port <numero del puerto>
+-->
 
 <body>
-    <h1>CRUD AJAX - XMLHttpRequest</h1>
-    <section class="crud">
-        <article>
-            <h2 class="crud-title">Agregar Persona: </h2>
-            <form class="crud-form">
-                <label for="nombre">Nombre:</label><br>
-                <input type="text" name="nombre" id="nombre" placeholder="Ingrese aquí su nombre" required><br>
-                <label for="cedula">Cedula:</label><br>
-                <input type="text" name="cedula" id="cedula" placeholder="Ingrese aquí su cédula" required><br>
-                <label for="edad">Edad:</label><br>
-                <input type="number" name="edad" id="edad" placeholder="Ingrese aquí su edad" required><br>
-                <label for="genero">Genero:</label><br>
-                <select name="genero" id="genero">
-                    <option value="masculino">Masculino</option>
-                    <option value="femenino">Femenino</option>
-                    <option value="otro">Otro</option>
-                </select><br>
-                <label for="estatura">Estatura (en centímetros):</label><br>
-                <input type="number" name="estatura" id="estatura" placeholder="Ingrese aquí su estatura" required><br>
-                <label for="estCivil">Estado Civil:</label><br>
-                <select name="estCivil" id="estCivil" required>
-                    <option value="soltero">Soltero</option>
-                    <option value="casado">Casado</option>
-                    <option value="divorciado">Divorciado</option>
-                    <option value="otro">Soltero</option>
-                </select><br>
-                <input type="submit" value="Enviar datos">
-                <input type="hidden" name="id">
-                <!--Servirá para los verbos GET, POST, PUT y DELETE -->
-            </form>
-        </article>
-        <article>
-            <h2>Lista de personas:</h2>
-            <table class="crud-table">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Cédula</th>
-                        <th>Edad</th>
-                        <th>Género</th>
-                        <th>Estatura</th>
-                        <th>Estado civil</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </article>
-    </section>
-    <template id="crud-template">
-        <tr>
-            <td class="nombre"></td>
-            <td class="cedula"></td>
-            <td class="edad"></td>
-            <td class="genero"></td>
-            <td class="estatura"></td>
-            <td class="estCivil"></td>
-            <td>
-                <button class="editar">Editar Persona</button>
-                <button class="eliminar">Eliminar Persona</button>
-            </td>
-        </tr>
-    </template>
-    <script src="js/app.js"></script>
+   <section class="crud">
+      <h1 class="crud__title">CRUD AJAX con XMLHttpRequest</h1>
+      <article class="crud__container">
+         <h2 class="crud__subtitle">Agregar Persona</h2>
+         <form id="crud-form" class="crud__form">
+            <label for="nombre" class="form__label">Nombre</label>
+            <input type="text" name="nombre" class="form__input" id="nombre" placeholder="Ingrese aquí su nombre"
+               required>
+            <label for="cedula" class="form__label">Cedula</label>
+            <input type="text" name="cedula" class="form__input" id="cedula" placeholder="Ingrese aquí su cédula"
+               required>
+            <label for="edad" class="form__label">Edad</label>
+            <input type="number" name="edad" class="form__input" id="edad" placeholder="Ingrese aquí su edad" required>
+            <label for="genero" class="form__label">Genero</label>
+            <select name="genero" id="genero" class="form__input">
+               <option value="m">Masculino</option>
+               <option value="f">Femenino</option>
+               <option value="o">Otro</option>
+            </select>
+            <label for="estatura" class="form__label">Estatura (en centímetros)</label>
+            <input type="number" name="estatura" class="form__input" id="estatura"
+               placeholder="Ingrese aquí su estatura" required>
+            <label for="estCivil" class="form__label">Estado Civil</label>
+            <select name="estCivil" id="estCivil" class="form__input" required>
+               <option value="s">Soltero</option>
+               <option value="c">Casado</option>
+               <option value="d">Divorciado</option>
+               <option value="o">Soltero</option>
+            </select>
+            <input type="submit" class="form__input form__input--button" id="btn-form">
+            <input type="hidden" name="id">
+            <!--Servirá para los verbos GET, POST, PUT y DELETE -->
+         </form>
+      </article>
+      <article>
+         <h2 class="crud__subtitle crud__subtitle--table">Lista de personas:</h2>
+         <table class="crud-table">
+            <thead class="crud-table__header">
+               <tr>
+                  <th>Nombre</th>
+                  <th>Cédula</th>
+                  <th>Edad</th>
+                  <th>Género</th>
+                  <th>Estatura</th>
+                  <th>Estado civil</th>
+                  <th>Acciones</th>
+               </tr>
+               </theadclass>
+            <tbody></tbody>
+         </table>
+      </article>
+   </section>
+   <template id="crud-template">
+      <tr>
+         <td class="nombre"></td>
+         <td class="cedula"></td>
+         <td class="edad"></td>
+         <td class="genero"></td>
+         <td class="estatura"></td>
+         <td class="estCivil"></td>
+         <td>
+            <button class="editar">Editar Persona</button>
+            <button class="eliminar">Eliminar Persona</button>
+         </td>
+      </tr>
+   </template>
+   <script src="js/app.js"></script>
 </body>
 
 </html>
